@@ -1,2 +1,2 @@
-FROM selenium/standalone-chrome:4.0.0-alpha-7-prerelease-20200921
+FROM seleniarm/standalone-chromium:104.0
 

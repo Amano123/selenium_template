@@ -6,20 +6,28 @@ from selenium.webdriver.support.expected_conditions import presence_of_element_l
 from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import os
 
-def open_website(driver: webdriver.Remote, wait: WebDriverWait):
-    driver.get('https://qiita.com')
-
-
-def main() -> None:
+if __name__ == '__main__':
     # Selenium サーバーへ接続する。
     driver = webdriver.Remote(
         command_executor=os.environ["SELENIUM_URL"],
         desired_capabilities=DesiredCapabilities.CHROME.copy()
     )
+    # 任意のHTMLの要素が特定の状態になるまで待つ
     # ドライバとタイムアウト値を指定
     wait = WebDriverWait(driver, 10)
-    open_website(driver, wait)
+    # Googleにアクセス
+    driver.get("https://google.com")
+    # "selenium"で検索
+    driver.find_element(By.NAME, "q").send_keys("selenium" + Keys.RETURN)
+    # 1件目の検索結果を取得(描画されるまで待機)
+    first_result = wait.until(
+        presence_of_element_located((By.CSS_SELECTOR, "h3")))
+    print(first_result.get_attribute("textContent"))
+    
+    driver.find_element(By.NAME, "q").send_keys("python" + Keys.RETURN)
+    # 1件目の検索結果を取得(描画されるまで待機)
+    first_result = wait.until(
+        presence_of_element_located((By.CSS_SELECTOR, "h3")))
+    print(first_result.get_attribute("textContent"))
 
-
-if __name__ == '__main__':
-    main()
+    # driver.quit()

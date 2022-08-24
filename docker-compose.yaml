@@ -4,6 +4,10 @@ services:
     build: 
       context: docker/selenium
       dockerfile: Dockerfile
+    shm_size: 2gb
+    # build: 
+    #   context: docker/selenium
+    #   dockerfile: Dockerfile
     ports:
       - 4444:4444
       - 5900:5900
@@ -14,7 +18,7 @@ services:
       dockerfile: Dockerfile
     volumes:
       - ./python/src:/app
-      - /dev/shm:/dev/shm
+      # - /dev/shm:/dev/shm
     environment:
       SELENIUM_URL: http://selenium:4444/wd/hub
     tty: true
