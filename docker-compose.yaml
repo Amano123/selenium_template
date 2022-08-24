@@ -1,0 +1,20 @@
+version: "3"
+services:
+  selenium:
+    build: 
+      context: docker/selenium
+      dockerfile: Dockerfile
+    ports:
+      - 4444:4444
+      - 5900:5900
+
+  python:
+    build: 
+      context: docker/python
+      dockerfile: Dockerfile
+    volumes:
+      - ./python/src:/app
+      - /dev/shm:/dev/shm
+    environment:
+      SELENIUM_URL: http://selenium:4444/wd/hub
+    tty: true
